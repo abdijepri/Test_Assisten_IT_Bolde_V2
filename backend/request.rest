@@ -1,3 +1,4 @@
+###
 GET http://localhost:5000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsIm5hbWUiOiJOYXRhbGlhIFBlcm1hdGEgU2FyaSBCciBCYW5ndW4iLCJlbWFpbCI6ImFiYW5nYnVkaUBnbWFpbC5jb20iLCJpYXQiOjE3NDA0MDIxMTMsImV4cCI6MTc0MDQwMjEzM30.qHvZeS0BXT3wLgoODH6n8SH0N8uuqUuMHT7PH_aD4Vw
 
@@ -27,13 +28,11 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsIm5hbWUiOiJOYXRhbGlhIFBlcm1hdGEgU2FyaSBCciBCYW5ndW4iLCJlbWFpbCI6ImFiYW5nYnVkaUBnbWFpbC5jb20iLCJpYXQiOjE3NDA0MDIwMTIsImV4cCI6MTc0MDQwMjAzMn0.QAzpMpmweW4TI4PFulEVCi2Rf0D9ZgWB7hOHNgTyHe4
 
 {
-    "name":"Sonya Ginting",
+    "name":"Abang Budi",
     "email":"abangbudi@gmail.com",
     "password":"1122334455",
     "confPassword":"1122334455"
 }
-
-
 
 ###
 DELETE http://localhost:5000/logout
