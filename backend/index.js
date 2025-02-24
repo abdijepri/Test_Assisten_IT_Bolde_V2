@@ -1,9 +1,9 @@
 import express from "express";
-import db from "./config/database.js";
+import db from "./config/db.js";
 import cookieParser from "cookie-parser";
 // import Users from "./models/userModel.js";
 import cors from "cors";
-import router from "./routes/index.js";
+import router from "./routes/userRoutes.js";
 import dotenv from "dotenv";
 dotenv.config();
 

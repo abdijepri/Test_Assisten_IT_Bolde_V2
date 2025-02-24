@@ -1,5 +1,5 @@
 GET http://localhost:5000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJBYmRpIEplcHJpIiwiZW1haWwiOiJhYmRpamVwcmlAZ21haWwuY29tIiwiaWF0IjoxNzQwMzkzNDczLCJleHAiOjE3NDAzOTM0OTN9.DKln81KuuvKVdlG-Hw6YOs8cLDX3nVh67sIgt8UivlQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsIm5hbWUiOiJOYXRhbGlhIFBlcm1hdGEgU2FyaSBCciBCYW5ndW4iLCJlbWFpbCI6ImFiYW5nYnVkaUBnbWFpbC5jb20iLCJpYXQiOjE3NDA0MDIxMTMsImV4cCI6MTc0MDQwMjEzM30.qHvZeS0BXT3wLgoODH6n8SH0N8uuqUuMHT7PH_aD4Vw
 
 ###
 POST http://localhost:5000/users
@@ -17,16 +17,17 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email":"abdijepri@gmail.com",
+    "email":"abangbudi@gmail.com",
     "password":"1122334455"
 }
 
 ###
 PATCH http://localhost:5000/users/4
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsIm5hbWUiOiJOYXRhbGlhIFBlcm1hdGEgU2FyaSBCciBCYW5ndW4iLCJlbWFpbCI6ImFiYW5nYnVkaUBnbWFpbC5jb20iLCJpYXQiOjE3NDA0MDIwMTIsImV4cCI6MTc0MDQwMjAzMn0.QAzpMpmweW4TI4PFulEVCi2Rf0D9ZgWB7hOHNgTyHe4
 
 {
-    "name":"Abdi Jepri Bangun",
+    "name":"Sonya Ginting",
     "email":"abangbudi@gmail.com",
     "password":"1122334455",
     "confPassword":"1122334455"

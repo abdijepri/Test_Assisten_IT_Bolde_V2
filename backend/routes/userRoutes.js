@@ -6,14 +6,14 @@ import {
   LogOut,
   getUserById,
   updateUser,
-} from "../controller/users.js";
-import { verifyToken } from "../middleware/verifyToken.js";
+} from "../controller/usersController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 import { refreshToken } from "../controller/refreshToken.js";
 
 const router = express.Router();
 
-router.get("/users", verifyToken, getUsers);
-router.get("/users/:id", verifyToken, getUserById);
+router.get("/users", authMiddleware, getUsers);
+router.get("/users/:id", authMiddleware, getUserById);
 router.patch("/users/:id", updateUser);
 router.post("/users", Register);
 router.post("/login", Login);
