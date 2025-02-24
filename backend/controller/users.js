@@ -13,6 +13,24 @@ export const getUsers = async (req, res) => {
   }
 };
 
+export const getUserById = async (req, res) => {
+  try {
+    const user = await Users.findOne({
+      where: { id: req.params.id },
+      attributes: ["id", "name", "email"],
+    });
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const Register = async (req, res) => {
   const { name, email, password, confPassword } = req.body;
   if (password != confPassword) {
@@ -92,4 +110,44 @@ export const LogOut = async (req, res) => {
   );
   res.clearCookie("refreshToken");
   return res.sendStatus(200);
+};
+
+export const updateUser = async (req, res) => {
+  const { name, email, password, confPassword } = req.body;
+
+  // If a password is provided, check for match
+
+  if (password !== confPassword) {
+    return res
+      .status(400)
+      .json({ msg: "Password dan Confirm Password tidak cocok" });
+  }
+
+  if (!password || !confPassword) {
+    return res
+      .status(400)
+      .json({ msg: "Password dan Confirm Password tidak boleh kosong" });
+  }
+  
+
+  try {
+    let updateFields = { name, email };
+
+    // If updating the password, hash it and add to the update fields
+    if (password) {
+      const salt = await bcrypt.genSalt();
+      const hashPassword = await bcrypt.hash(password, salt);
+      updateFields.password = hashPassword;
+    }
+
+    // Update the user by ID
+    await Users.update(updateFields, {
+      where: { id: req.params.id },
+    });
+
+    res.json({ msg: "Update Berhasil" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Update Gagal" });
+  }
 };

@@ -60,6 +60,15 @@ const Login = () => {
                     Login
                   </button>
                 </div>
+                <div className="field mt-3">
+                  <button
+                    className="button is-info is-fullwidth"
+                    type="button"
+                    onClick={() => navigate("/register")}
+                  >
+                    Register
+                  </button>
+                </div>
               </form>
             </div>
           </div>

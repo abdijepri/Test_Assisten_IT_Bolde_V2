@@ -21,27 +21,14 @@ const Navbar = () => {
     >
       <div className="container">
         <div className="navbar-brand">
-          <a className="navbar-item" href="https://bulma.io">
+          <a className="navbar-item" href="https://www.boldestore.com" target="_blank" rel="noopener noreferrer">
             <img
               alt=""
-              src="https://bulma.io/images/bulma-logo.png"
-              width="112"
-              height="28"
+              src="https://www.boldestore.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.cf6c666b.png&w=256&q=75"
+              
             />
           </a>
 
-          <a
-            href=" "
-            role="button"
-            className="navbar-burger burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasicExample"
-          >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
         </div>
 
         <div id="navbarBasicExample" className="navbar-menu">

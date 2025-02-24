@@ -5,14 +5,16 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [name, setName] = useState("");
+  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
   const [expired, setExpired] = useState("");
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     refreshToken();
-    getUsers()
+    getUserById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -21,9 +23,10 @@ const Dashboard = () => {
       const response = await axios.get("http://localhost:5000/token");
       setToken(response.data.accessToken);
       const decoded = jwtDecode(response.data.accessToken);
-      console.log(decoded);
       setName(decoded.name);
+      setEmail(decoded.email);
       setExpired(decoded.exp);
+      setId(decoded.userID);
     } catch (error) {
       if (error.response) {
         navigate("/");
@@ -41,7 +44,6 @@ const Dashboard = () => {
         config.headers.Authorization = `Bearer ${response.data.accessToken}`;
         setToken(response.data.accessToken);
         const decoded = jwtDecode(response.data.accessToken);
-        setName(decoded.name);
         setExpired(decoded.exp);
       }
       return config;
@@ -51,39 +53,49 @@ const Dashboard = () => {
     }
   );
 
-  const getUsers = async () => {
-    const response = await axiosJWT.get("http://localhost:5000/users", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setUsers(response.data);
+  const getUserById = async () => {
+    try {
+      const response = await axiosJWT.get("http://localhost:5000/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data);
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+    }
   };
 
   return (
     <div className="container mt-5">
       <h1>Selamat Datang: {name}</h1>
-      <button onClick={getUsers} className="button is-info">
-        Get Users
-      </button>
-      <table className="table is-stripped is-fullwidth">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user.id}>
-              <td>{index+1}</td>
-              <td>{user.name}</td>
-              <td>{user.name}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="box">
+        {user ? (
+          <>
+            <h2>User Details</h2>
+            <p>
+              <strong>ID:</strong> {id}
+            </p>
+            <p>
+              <strong>Name:</strong> {name}
+            </p>
+            <p>
+              <strong>Email:</strong> {email}
+            </p>
+          </>
+        ) : (
+          <p>Loading user data...</p>
+        )}
+      </div>
+      <div className="field mt-3">
+        <button
+          className="button is-info is-fullwidth"
+          type="button"
+          onClick={() => navigate("/update", { state: { id, token } })}
+        >
+          Update
+        </button>
+      </div>
     </div>
   );
 };

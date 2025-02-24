@@ -1,25 +1,51 @@
-import React, { useState } from "react";
+// UpdateUser.js
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const Register = () => {
+const UpdateUser = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setconfPassword] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const id = state?.id;
+  const token = state?.token; // Get the ID from state
 
-  const Register = async (e) => {
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
+    const getUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/users/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setName(response.data.name);
+        setEmail(response.data.email);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    getUserData();
+  }, [id, token, navigate]);
+
+  const updateUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/users", {
-        name: name,
-        email: email,
-        password: password,
-        confPassword: confPassword,
+      await axios.patch(`http://localhost:5000/users/${id}`, {
+        name,
+        email,
+        password,
+        confPassword,
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -33,7 +59,7 @@ const Register = () => {
         <div className="container">
           <div className="columns is-centered">
             <div className="column is-4-desktop">
-              <form className="box" onSubmit={Register}>
+              <form className="box" onSubmit={updateUser}>
                 <p className="has-text-centered">{msg}</p>
                 <div className="field mt-5">
                   <div className="label">Username</div>
@@ -44,7 +70,7 @@ const Register = () => {
                       type="text"
                       placeholder="Username"
                       className="input"
-                    ></input>
+                    />
                   </div>
                 </div>
                 <div className="field mt-5">
@@ -56,7 +82,7 @@ const Register = () => {
                       type="email"
                       placeholder="Email"
                       className="input"
-                    ></input>
+                    />
                   </div>
                 </div>
                 <div className="field mt-5">
@@ -68,7 +94,7 @@ const Register = () => {
                       type="password"
                       placeholder="******"
                       className="input"
-                    ></input>
+                    />
                   </div>
                 </div>
                 <div className="field mt-5">
@@ -80,21 +106,21 @@ const Register = () => {
                       type="password"
                       placeholder="******"
                       className="input"
-                    ></input>
+                    />
                   </div>
                 </div>
                 <div className="field mt-5">
                   <button className="button is-success is-fullwidth">
-                    Register
+                    Update
                   </button>
                 </div>
                 <div className="field mt-3">
                   <button
                     className="button is-info is-fullwidth"
                     type="button"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/dashboard")}
                   >
-                    Login
+                    Kembali ke Dashboard
                   </button>
                 </div>
               </form>
@@ -106,4 +132,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default UpdateUser;

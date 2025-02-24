@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./components/register";
 import Dashboard from "./components/dashboard";
 import Navbar from "./components/navbar";
+import UpdateUser from "./components/update";
+
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/update" element={<UpdateUser />} />
           <Route path="/dashboard" element={<>
                 <Navbar />
                 <Dashboard />
