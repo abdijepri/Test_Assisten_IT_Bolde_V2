@@ -1,0 +1,22 @@
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJBYmRpIEplcHJpIiwiZW1haWwiOiJhYmRpamVwcmlAZ21haWwuY29tIiwiaWF0IjoxNzQwMzgyMTU0LCJleHAiOjE3NDAzODIxNzR9.e6Mfbs015HqiQYIvJTW9_41bKMonhePGz3JKCVL3a3s
+
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name":"Abdi Jepri Bangun",
+    "email":"abdijepri2@gmail.com",
+    "password":"1122334455",
+    "confPassword":"1122334455"
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email":"abdijepri@gmail.com",
+    "password":"1122334455"
+}
