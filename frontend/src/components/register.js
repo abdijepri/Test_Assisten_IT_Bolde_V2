@@ -12,6 +12,10 @@ const Register = () => {
 
   const Register = async (e) => {
     e.preventDefault();
+    if (!name || !email) {
+      setMsg("Username dan email harus diisi!");
+      return;
+    }
     try {
       await axios.post("http://localhost:5000/users", {
         name: name,
@@ -34,7 +38,9 @@ const Register = () => {
           <div className="columns is-centered">
             <div className="column is-4-desktop">
               <form className="box" onSubmit={Register}>
-                <p className="has-text-centered">{msg}</p>
+                {msg && (
+                  <div className="notification is-danger is-light">{msg}</div>
+                )}
                 <div className="field mt-5">
                   <div className="label">Username</div>
                   <div className="controls">

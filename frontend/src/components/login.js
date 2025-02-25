@@ -6,10 +6,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const Auth = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await axios.post("http://localhost:5000/login", {
         email: email,
@@ -20,6 +22,8 @@ const Login = () => {
       if (error.response) {
         setMsg(error.response.data.msg);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,7 +34,7 @@ const Login = () => {
           <div className="columns is-centered">
             <div className="column is-4-desktop">
               <form className="box" onSubmit={Auth}>
-                <div className="has-text-centered">{msg}</div>
+                {msg && <div className="notification is-danger is-light">{msg}</div>}
                 <div className="field mt-5">
                   <div className="label">Email or Username</div>
                   <div className="controls">
@@ -56,8 +60,13 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="field mt-5">
-                  <button className="button is-success is-fullwidth">
-                    Login
+                  <button
+                    className={`button is-success is-fullwidth ${
+                      loading ? "is-loading" : ""
+                    }`}
+                    disabled={loading}
+                  >
+                    {loading ? "Logging in..." : "Login"}
                   </button>
                 </div>
                 <div className="field mt-3">

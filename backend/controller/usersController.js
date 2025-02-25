@@ -42,6 +42,11 @@ export const Register = async (req, res) => {
   const hashPassword = await bcrypt.hash(password, salt);
 
   try {
+    const existingUser = await Users.findOne({ where: { email: email } });
+    if (existingUser) {
+      return res.status(400).json({ msg: "Email sudah terdaftar" });
+    }
+
     await Users.create({
       name: name,
       email: email,
@@ -128,7 +133,6 @@ export const updateUser = async (req, res) => {
       .status(400)
       .json({ msg: "Password dan Confirm Password tidak boleh kosong" });
   }
-  
 
   try {
     let updateFields = { name, email };

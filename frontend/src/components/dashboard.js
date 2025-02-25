@@ -55,7 +55,7 @@ const Dashboard = () => {
 
   const getUserById = async () => {
     try {
-      const response = await axiosJWT.get("http://localhost:5000/users", {
+      const response = await axiosJWT.get(`http://localhost:5000/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -73,9 +73,6 @@ const Dashboard = () => {
         {user ? (
           <>
             <h2>User Details</h2>
-            <p>
-              <strong>ID:</strong> {id}
-            </p>
             <p>
               <strong>Name:</strong> {name}
             </p>

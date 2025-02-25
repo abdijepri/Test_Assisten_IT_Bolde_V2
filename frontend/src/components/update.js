@@ -38,6 +38,10 @@ const UpdateUser = () => {
 
   const updateUser = async (e) => {
     e.preventDefault();
+    if (!name || !email) {
+      setMsg("Username dan email harus diisi!");
+      return;
+    }
     try {
       await axios.patch(`http://localhost:5000/users/${id}`, {
         name,
@@ -60,7 +64,9 @@ const UpdateUser = () => {
           <div className="columns is-centered">
             <div className="column is-4-desktop">
               <form className="box" onSubmit={updateUser}>
-                <p className="has-text-centered">{msg}</p>
+                {msg && (
+                  <div className="notification is-danger is-light">{msg}</div>
+                )}
                 <div className="field mt-5">
                   <div className="label">Username</div>
                   <div className="controls">
