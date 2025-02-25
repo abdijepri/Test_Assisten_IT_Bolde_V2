@@ -68,30 +68,46 @@ const Dashboard = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Selamat Datang: {name}</h1>
-      <div className="box">
-        {user ? (
-          <>
-            <h2>User Details</h2>
-            <p>
-              <strong>Name:</strong> {name}
-            </p>
-            <p>
-              <strong>Email:</strong> {email}
-            </p>
-          </>
-        ) : (
-          <p>Loading user data...</p>
-        )}
-      </div>
-      <div className="field mt-3">
-        <button
-          className="button is-info is-fullwidth"
-          type="button"
-          onClick={() => navigate("/update", { state: { id, token } })}
-        >
-          Update
-        </button>
+      <div className="card">
+        <div className="card-content">
+          <h1 className="title is-3">Selamat Datang, {name}!</h1>
+          <h2 className="subtitle is-6">Dashboard Anda</h2>
+          <div className="media">
+            <div className="media-left">
+              <figure className="image is-48x48">
+                <img src="/profile.png" alt="Profile Icon" />
+              </figure>
+            </div>
+            <div className="media-content"></div>
+          </div>
+
+          {user ? (
+            <>
+              <div className="content">
+                <p>
+                  <strong>Nama:</strong> {name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {email}
+                </p>
+              </div>
+            </>
+          ) : (
+            <p>Loading user data...</p>
+          )}
+
+          <div className="buttons mt-3">
+            <button
+              className="button is-info"
+              onClick={() => navigate("/update", { state: { id, token } })}
+            >
+              <span className="icon">
+                <i className="fas fa-edit"></i>
+              </span>
+              <span>Update Profile</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
