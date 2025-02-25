@@ -70,20 +70,22 @@ const Dashboard = () => {
     <div className="container mt-5">
       <div className="card">
         <div className="card-content">
-          <h1 className="title is-3">Selamat Datang, {name}!</h1>
-          <h2 className="subtitle is-6">Dashboard Anda</h2>
-          <div className="media">
+          <p className="subtitle is-5">
+            Selamat Datang,{" "}
+            <span className="title is-4 has-text-weight-bold">{name}</span>
+          </p>
+          <h2 className="subtitle is-6">Dashboard Anda :</h2>
+          <div className="media is-align-items-center is-justify-content-center">
             <div className="media-left">
-              <figure className="image is-48x48">
+              <figure className="image is-128x128">
                 <img src="/profile.png" alt="Profile Icon" />
               </figure>
             </div>
-            <div className="media-content"></div>
           </div>
 
           {user ? (
             <>
-              <div className="content">
+              <div className="content has-text-centered">
                 <p>
                   <strong>Nama:</strong> {name}
                 </p>
@@ -96,15 +98,12 @@ const Dashboard = () => {
             <p>Loading user data...</p>
           )}
 
-          <div className="buttons mt-3">
+          <div className="buttons is-centered mt-3">
             <button
-              className="button is-info"
+              className="button is-info is-medium"
               onClick={() => navigate("/update", { state: { id, token } })}
             >
-              <span className="icon">
-                <i className="fas fa-edit"></i>
-              </span>
-              <span>Update Profile</span>
+              Update Profile
             </button>
           </div>
         </div>

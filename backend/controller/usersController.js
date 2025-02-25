@@ -120,8 +120,6 @@ export const LogOut = async (req, res) => {
 export const updateUser = async (req, res) => {
   const { name, email, password, confPassword } = req.body;
 
-  // If a password is provided, check for match
-
   if (password !== confPassword) {
     return res
       .status(400)
@@ -135,9 +133,12 @@ export const updateUser = async (req, res) => {
   }
 
   try {
+    const existingUser = await Users.findOne({ where: { email: email } });
+    if (existingUser) {
+      return res.status(400).json({ msg: "Email sudah terdaftar" });
+    }
     let updateFields = { name, email };
 
-    // If updating the password, hash it and add to the update fields
     if (password) {
       const salt = await bcrypt.genSalt();
       const hashPassword = await bcrypt.hash(password, salt);
