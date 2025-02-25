@@ -6,7 +6,6 @@ cd frontend
 ```
     root-folder/
     ├── public/                 # File statis publik (favicon, index.html)
-    │   └── db.js               # Konfigurasi koneksi database
     ├── src/                        # Kode utama aplikasi
     │   └── components/             # Komponen-komponen UI
     │   │   ├── dashboard.js
