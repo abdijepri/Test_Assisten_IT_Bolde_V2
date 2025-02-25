@@ -1,8 +1,15 @@
-# Backend Setup Guide
-Panduan untuk menjalankan backend aplikasi! 
-## **1. Struktur Folder**
+# Application Setup Guide
+## **Clone Repository**
+```bash
+git clone https://github.com/abdijepri/Test_Assisten_IT_Bolde_V2.git
+```
 
-    .
+# Backend Setup Guide
+Panduan untuk menjalankan backend aplikasi!  
+## **1. Struktur Folder**
+```bash
+cd backend
+```
     root-folder/
     ├── config/
     │   └── db.js               # Konfigurasi koneksi database
@@ -74,10 +81,11 @@ Server akan berjalan di http://localhost:5000
 | **Patch**  | /users/:id   | Update data User             |
 | **Delete** | /logout      | Logout & hapus refresh token |
 | **Get**    | /token       | Dapatkan access token baru   |
+
 Untuk menguji API, bisa menggunakan Postman atau RestClient
 
 ## **7. Testing**
-Contoh lengkap bisa diakses di file request.rest
+Contoh lengkap bisa diakses di file request.rest  
 Register User: Kirim POST ke /users dengan body:
 ```bash
 {
@@ -100,14 +108,48 @@ Di Postman, tambahkan header Authorization:
 ```bash
 Authorization: Bearer <accessToken>
 ```
-Refresh Token: Kalau token expired, bisa refresh di /token.
+Refresh Token: Kalau token expired, bisa refresh di /token.  
 Logout: Panggil DELETE ke /logout untuk menghapus refresh token.
 
 ## **8. Selesai**
-Sekarang backend sudah berjalan dan bisa diakses!
-Jika ada kendala atau error, pastikan semua konfigurasi sudah benar, terutama koneksi database dan variabel environment.
+Sekarang backend sudah berjalan dan bisa diakses!  
+Jika ada kendala atau error, pastikan semua konfigurasi sudah benar, terutama koneksi database dan variabel environment.  
 
+# Frontend Setup Guide
+Panduan untuk menjalankan frontend aplikasi!  
+## **1. Struktur Folder**
+```bash
+cd frontend
+```
+    root-folder/
+    ├── public/                 # File statis publik (favicon, index.html)
+    │   └── db.js               # Konfigurasi koneksi database
+    ├── src/                        # Kode utama aplikasi
+    │   └── components/             # Komponen-komponen UI
+    │   │   ├── dashboard.js
+    │   │   ├── login.js
+    │   │   ├── navbar.js
+    │   │   ├── register.js
+    │   │   └── update.js
+    │   ├── App.js                    # Root component
+    │   ├── index.js                  # Entry point aplikasi    
+    └── README.md
+    
+## **2. Install Dependencies**
+Pastikan Anda sudah menginstal npm.
+Setelah itu, jalankan perintah berikut untuk menginstal semua package yang dibutuhkan:
+```bash
+npm install
+```
+## **3. Jalankan Server**
+Jalankan Server
+```bash
+npm start
+```
+Server akan berjalan di http://localhost:3000
 
+## **4. Selesai**
+Sekarang frontend sudah siap untuk digunakan!
 
 
 
