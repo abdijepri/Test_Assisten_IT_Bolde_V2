@@ -119,6 +119,10 @@ export const LogOut = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { name, email, password, confPassword } = req.body;
+  const token = req.headers.authorization.split(" ")[1];
+  if (!token) return res.status(401).send("Access Denied");
+  console.log(token);
+  const userId = req.userId;
 
   if (password !== confPassword) {
     return res
@@ -132,11 +136,20 @@ export const updateUser = async (req, res) => {
       .json({ msg: "Password dan Confirm Password tidak boleh kosong" });
   }
 
-  try {
-    const existingUser = await Users.findOne({ where: { email: email } });
+  const user = await Users.findOne({ where: { id: userId } });
+
+  if (email && email !== user.email) {
+    const existingUser = await Users.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({ msg: "Email sudah terdaftar" });
+      return res
+        .status(400)
+        .json({ msg: "Email sudah digunakan oleh user lain" });
     }
+  }
+  try {
+    const user = await Users.findOne({ where: { id: userId } });
+    if (!user) return res.status(404).json({ msg: "User  not found" });
+
     let updateFields = { name, email };
 
     if (password) {
@@ -144,15 +157,13 @@ export const updateUser = async (req, res) => {
       const hashPassword = await bcrypt.hash(password, salt);
       updateFields.password = hashPassword;
     }
-
     // Update the user by ID
     await Users.update(updateFields, {
-      where: { id: req.params.id },
+      where: { id: userId },
     });
-
-    res.json({ msg: "Update Berhasil" });
+    return res.json({ msg: "Update Berhasil" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: "Update Gagal" });
+    return res.status(500).json({ msg: "Update Gagal" });
   }
 };

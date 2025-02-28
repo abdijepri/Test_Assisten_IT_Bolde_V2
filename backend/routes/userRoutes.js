@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.get("/users", authMiddleware, getUsers);
 router.get("/users/:id", authMiddleware, getUserById);
-router.patch("/users/:id", updateUser);
+router.patch("/users/update",authMiddleware, updateUser);
 router.post("/users", Register);
 router.post("/login", Login);
 router.get("/token", refreshToken);

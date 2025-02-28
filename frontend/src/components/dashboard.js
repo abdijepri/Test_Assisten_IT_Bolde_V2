@@ -26,7 +26,7 @@ const Dashboard = () => {
       setName(decoded.name);
       setEmail(decoded.email);
       setExpired(decoded.exp);
-      setId(decoded.userID);
+      setId(decoded.userId);
     } catch (error) {
       if (error.response) {
         navigate("/");
@@ -101,7 +101,7 @@ const Dashboard = () => {
           <div className="buttons is-centered mt-3">
             <button
               className="button is-info is-medium"
-              onClick={() => navigate("/update", { state: { id, token } })}
+              onClick={() => navigate("/update")}
             >
               Update Profile
             </button>

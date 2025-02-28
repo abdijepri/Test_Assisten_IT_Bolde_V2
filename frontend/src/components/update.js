@@ -1,7 +1,8 @@
 // UpdateUser.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");
@@ -10,31 +11,47 @@ const UpdateUser = () => {
   const [confPassword, setconfPassword] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const id = state?.id;
-  const token = state?.token; // Get the ID from state
+  const [token, setToken] = useState("");
+  const [expired, setExpired] = useState("");
 
   useEffect(() => {
-    if (!token) {
-      navigate("/");
-      return;
-    }
-    const getUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/users/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setName(response.data.name);
-        setEmail(response.data.email);
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
+    refreshToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    getUserData();
-  }, [id, token, navigate]);
+  const refreshToken = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/token");
+      setToken(response.data.accessToken);
+      const decoded = jwtDecode(response.data.accessToken);
+      setName(decoded.name);
+      setEmail(decoded.email);
+      setExpired(decoded.exp);
+    } catch (error) {
+      if (error.response) {
+        navigate("/");
+      }
+    }
+  };
+
+  const axiosJWT = axios.create();
+
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      const currentDate = new Date();
+      if (expired * 1000 < currentDate.getTime()) {
+        const response = await axios.get("http://localhost:5000/token");
+        config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+        setToken(response.data.accessToken);
+        const decoded = jwtDecode(response.data.accessToken);
+        setExpired(decoded.exp);
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   const updateUser = async (e) => {
     e.preventDefault();
@@ -42,13 +59,23 @@ const UpdateUser = () => {
       setMsg("Username dan email harus diisi!");
       return;
     }
+    const refreshedToken = await axiosJWT.get("http://localhost:5000/token");
+    setToken(refreshedToken.data.accessToken);
     try {
-      await axios.patch(`http://localhost:5000/users/${id}`, {
-        name,
-        email,
-        password,
-        confPassword,
-      });
+      await axiosJWT.patch(
+        `http://localhost:5000/users/update`,
+        {
+          name,
+          email,
+          password,
+          confPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       navigate("/dashboard");
     } catch (error) {
       if (error.response) {
